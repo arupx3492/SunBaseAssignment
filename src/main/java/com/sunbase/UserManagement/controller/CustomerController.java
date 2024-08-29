@@ -59,12 +59,12 @@ public class CustomerController {
     }
     @PostMapping("/sync")
     public  ResponseEntity<String> syncCustomers(){
-//        try {
+        try {
             customerService.syncCustomers();
             return ResponseEntity.ok("Customer Synced Successfully");
-//        }catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Failed to Sync Customers");
-//        }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Failed to Sync Customers");
+        }
     }
 
 }
