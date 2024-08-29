@@ -20,4 +20,6 @@ public interface CustomerService {
     public Customer getCustomerByUUID(String UUID);
     public  void deleteCustomer(String uuid);
 
+    public void syncCustomers();
+
 }

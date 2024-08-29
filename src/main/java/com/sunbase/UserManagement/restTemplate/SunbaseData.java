@@ -2,23 +2,32 @@ package com.sunbase.UserManagement.restTemplate;
 
 import com.sunbase.UserManagement.entities.Customer;
 import com.sunbase.UserManagement.repository.CustomerRepository;
+import com.sunbase.UserManagement.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
+@Service
 public class SunbaseData {
 
-    @Autowired
-    CustomerRepository customerRepository;
+
+
 
     public String authenticateUser(){
         String url="https://qa.sunbasedata.com/sunbase/portal/api/assignment_auth.jsp";
 
         RestTemplate restTemplate =new RestTemplate();
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter() {
+            @Override
+            public boolean canRead(Class<?> clazz, MediaType mediaType) {
+                return mediaType != null && mediaType.getSubtype().equals("json");
+            }
+        });
 
         Map<String,String> requestBody=new HashMap<>();
         requestBody.put("login_id","test@sunbasedata.com");
@@ -26,12 +35,14 @@ public class SunbaseData {
 
         ResponseEntity<Map> response=restTemplate.postForEntity(url,requestBody,Map.class);
 
+        System.out.println("This is response:- "+response);
+
         if(response.getStatusCode()== HttpStatus.OK){
 
 
             Map<String,String> body=response.getBody();
             assert body != null;
-            return body.get("token");
+            return body.get("access_token");
         }else{
             throw  new RuntimeException("Failed to authenticate User");
         }
@@ -39,30 +50,5 @@ public class SunbaseData {
     }
 
 
-    public void syncCustomers(){
-        String token = authenticateUser();
-        String fetchUrl = "https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list";
-        RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Bearer "+token);
-
-        HttpEntity<String> entity=new HttpEntity<>(headers);
-
-        ResponseEntity<Customer[]> response=restTemplate.exchange(fetchUrl, HttpMethod.GET,entity,Customer[].class);
-
-        if(response.getStatusCode()==HttpStatus.OK){
-            Customer[] customers=response.getBody();
-            assert customers != null;
-            for(Customer customer:customers){
-                Optional<Customer> existingCustomer=customerRepository.findById(customer.getUuid());
-
-                if(existingCustomer.isPresent()){
-                    // update the existing customer
-
-                }
-            }
-        }
-
-    }
 }

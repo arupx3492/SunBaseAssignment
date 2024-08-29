@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,15 @@ public class CustomerController {
                 Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
 
         return customerService.getCustomers(searchBy,searchTerm,pageable);
+    }
+    @PostMapping("/sync")
+    public  ResponseEntity<String> syncCustomers(){
+//        try {
+            customerService.syncCustomers();
+            return ResponseEntity.ok("Customer Synced Successfully");
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Failed to Sync Customers");
+//        }
     }
 
 }
