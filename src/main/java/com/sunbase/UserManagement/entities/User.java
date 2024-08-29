@@ -2,6 +2,7 @@ package com.sunbase.UserManagement.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Entity
 @Table(name = "users")
