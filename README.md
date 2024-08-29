@@ -146,3 +146,10 @@ POST /api/sync
 ```
 
 - **Request Body:** None
+
+
+# For the Frontend go to The UI folder 
+
+- **Run the login.html file**
+- **use "arup9883m@gmail.com" as email and "12345" as password**
+- **You will be redirected to the customers.html file where you can do the above operations**
