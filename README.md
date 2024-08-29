@@ -33,7 +33,7 @@ The **Customer Management System** is a Spring Boot application designed to mana
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/customer-management-system.git
+    git clone https://github.com/arupx3492/SunBaseAssignment.git
     cd customer-management-system
     ```
 
@@ -43,6 +43,7 @@ The **Customer Management System** is a Spring Boot application designed to mana
     - Update the `application.properties` file with your MySQL username and password:
 
     ```properties
+    server.port=8080
     spring.datasource.url=jdbc:mysql://localhost:3306/customer_db
     spring.datasource.username=your_mysql_username
     spring.datasource.password=your_mysql_password
