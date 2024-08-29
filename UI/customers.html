@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        width: 80%;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        margin-bottom: 20px;
+        text-align: right;
+      }
+
+      .controls button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .controls button:hover {
+        background-color: #0056b3;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #ddd;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .action-buttons button {
+        padding: 5px 10px;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .edit-btn {
+        background-color: #28a745;
+      }
+
+      .edit-btn:hover {
+        background-color: #218838;
+      }
+
+      .delete-btn {
+        background-color: #dc3545;
+      }
+
+      .delete-btn:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Customer Management</h1>
+
+      <div class="controls">
+        <button onclick="syncCustomers()">Sync</button>
+        <!-- <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchCustomers()">Search</button> -->
+        <button onclick="addCustomer()">Add Customer</button>
+        <select id="searchBy">
+          <option value="first_name">First Name</option>
+          <option value="city">City</option>
+          <option value="email">Email</option>
+          <option value="phone">Phone</option>
+        </select>
+        <input type="text" id="searchInput" />
+        <button onclick="searchCustomers()">Search</button>
+      </div>
+
+      <table id="customerTable">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="customerTableBody">
+          <!-- Rows will be populated here -->
+        </tbody>
+      </table>
+
+      
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchCustomers();
+      });
+
+      function fetchCustomers() {
+        fetch("http://localhost:8080/api/customers", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const customers = data.content; // Extract the list of customers from the 'content' property
+            populateCustomerTable(customers);
+            console.log(customers);
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          });
+      }
+
+      function populateCustomerTable(customers) {
+        const tableBody = document.getElementById("customerTableBody");
+        tableBody.innerHTML = "";
+
+        customers.forEach((customer) => {
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+                    <td>${customer.first_name}</td>
+                    <td>${customer.last_name}</td>
+                    <td>${customer.address}</td>
+                    <td>${customer.city}</td>
+                    <td>${customer.state}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                 <td>
+<div class="action-buttons">
+<button class="edit-btn" onclick="editCustomer('${customer.uuid}')">Edit</button>
+<button class="delete-btn" onclick="deleteCustomer('${customer.uuid}')">Delete</button>
+</div>
+</td>
+                `;
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      function deleteCustomer(customerId) {
+        console.log("This is customer Id in delete" + customerId);
+        fetch(`http://localhost:8080/api/${customerId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              fetchCustomers(); // Refresh the table after deletion
+            } else {
+              alert("Failed to delete customer");
+            }
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the delete operation:",
+              error
+            );
+          });
+      }
+
+      function editCustomer(customerId) {
+        console.log("This is edit customer method customer Id:- "+customerId)
+        window.location.href= `editCustomer.html?id=${customerId}`;
+      }
+      
+      function addCustomer() {
+        // Implement add customer functionality
+        window.location.href = "add-customer.html";
+
+        // const formData = new FormData(
+        //   document.getElementById("addCustomerForm")
+        // );
+        // const data = {
+        //   firstName: formData.get("firstName"),
+        //   lastName: formData.get("lastName"),
+        //   address: formData.get("address"),
+        //   city: formData.get("city"),
+        //   state: formData.get("state"),
+        //   email: formData.get("email"),
+        //   phone: formData.get("phone"),
+        // };
+
+        // fetch("http://localhost:8080/api/customers", {
+        //   method: "POST",
+        //   headers: {
+        //     Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(data),
+        // })
+        //   .then((response) => {
+        //     if (response.ok) {
+        //       fetchCustomers(); // Refresh the table
+        //       closePopup(); // Close the popup
+        //     } else {
+        //       alert("Failed to add customer");
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.error("There was a problem with the add operation:", error);
+        //   });
+      }
+
+      function searchCustomers() {
+        // Implement search functionality
+
+        const searchBy = document.getElementById("searchBy").value;
+        const searchInput = document.getElementById("searchInput").value;
+
+        console.log("THis is search by:- " + searchBy);
+        console.log("THis is search input:- " + searchInput);
+
+        fetch(
+          `http://localhost:8080/api/customers?searchBy=${searchBy}&searchTerm=${searchInput}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const customers = data.content; // Extract the list of customers from the 'content' property
+            populateCustomerTable(customers);
+            // populateCustomerTable(data);
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the search operation:",
+              error
+            );
+          });
+      }
+
+      function syncCustomers() {
+        fetch("http://localhost:8080/api/sync", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              fetchCustomers(); // Refresh the table after sync
+              alert("Sync Successfull");
+            } else {
+              alert("Failed to sync customers");
+            }
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the sync operation:",
+              error
+            );
+          });
+      }
+    </script>
+
+
+
+
+
+  </body>
+</html>

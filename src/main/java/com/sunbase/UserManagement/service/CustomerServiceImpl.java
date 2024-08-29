@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -24,6 +25,11 @@ public class CustomerServiceImpl implements CustomerService {
     SunbaseData sunbaseData;
     @Override
     public Customer createCustomer(Customer customer) {
+        if(customer.getUuid()==null){
+            String randomString = UUID.randomUUID().toString().replace("-", "").substring(0, 32);
+            System.out.println(randomString);
+            customer.setUuid(randomString);
+        }
         return customerRepository.save(customer);
     }
 
