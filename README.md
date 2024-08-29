@@ -75,7 +75,6 @@ POST /api/create
 
     ```json
     {
-      "uuid": "unique-uuid",
       "first_name": "John",
       "last_name": "Doe",
       "street": "123 Main St",
