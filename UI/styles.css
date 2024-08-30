@@ -33,4 +33,107 @@ pre {
     background-color: #f8f9fa;
     padding: 10px;
     border: 1px solid #ddd;
+}
+
+.login-container{
+    display: flex;
 } */
+
+
+
+/* Reset some default browser styles */
+body, h2, p, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styling for the body */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container styling */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Heading styling */
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #555555;
+}
+
+/* Input styling */
+input[type="email"], input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Button styling */
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Error message styling */
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none; /* Initially hidden */
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 15px 20px;
+    }
+
+    input[type="email"], input[type="password"], button[type="submit"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .login-container h2 {
+        font-size: 24px;
+    }
+}
