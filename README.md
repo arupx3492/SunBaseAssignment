@@ -65,6 +65,30 @@ The **Customer Management System** is a Spring Boot application designed to mana
 
 ## API Endpoints
 
+### Login
+
+```http
+POST /login
+```
+
+
+- **Request Body:**
+
+    ```json
+    {
+  
+    "email":"arup9883m@gmail.com",
+    "password":"12345"
+
+    }
+    ```
+
+    
+- ## Login Page
+![Login Page](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Loging%202.png)
+
+
+
 ### Create Customer
 
 ```http
@@ -85,6 +109,10 @@ POST /api/create
       "Phone": "1234567890"
     }
     ```
+
+- ## Create Customer Page
+![Add Customer](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/add%20Customer.png)
+    
 
 ### Update Customer
 
@@ -108,6 +136,12 @@ PUT /api/{id}
       "Phone": "0987654321"
     }
     ```
+
+
+    - ## Update Customer Page
+
+![Edit Customer](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Edit%20Customer.png)
+
 
 ### Get Customer by ID
 
@@ -138,6 +172,9 @@ GET /api/customers
   - `size` (optional): Number of records per page (default is 100).
   - `sortBy` (optional): Field to sort by (default is `Phone`).
   - `sortDir` (optional): Sort direction (`asc` or `desc`, default is `asc`).
+ 
+- ## Customers Page
+![Customers Table](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Customer2.png)
 
 ### Sync Customers with Remote API
 
@@ -154,17 +191,6 @@ POST /api/sync
 - **use "arup9883m@gmail.com" as email and "12345" as password**
 - **You will be redirected to the customers.html file where you can do the above operations**
 
-- ## Login Page
-![Login Page](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Loging%202.png)
 
 
-- ## Customers Page
-![Customers Table](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Customer2.png)
-
-- ## Add Customer Page
-![Add Customer](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/add%20Customer.png)
-
-- ## Update Customer Page
-
-![Edit Customer](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Edit%20Customer.png)
 
