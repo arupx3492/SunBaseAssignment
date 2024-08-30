@@ -153,3 +153,18 @@ POST /api/sync
 - **Run the login.html file**
 - **use "arup9883m@gmail.com" as email and "12345" as password**
 - **You will be redirected to the customers.html file where you can do the above operations**
+
+- ## Login Page
+![Login Page](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Loging%202.png)
+
+
+- ## Customers Page
+![Customers Table](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Customer2.png)
+
+- ## Add Customer Page
+![Add Customer](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/add%20Customer.png)
+
+- ## Update Customer Page
+
+![Edit Customer](https://github.com/arupx3492/SunBaseAssignment/blob/master/UI/Screenshoots/Edit%20Customer.png)
+
